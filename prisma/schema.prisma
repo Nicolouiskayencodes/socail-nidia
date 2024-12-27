@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  firstName String
+  lastName String
+  avatar String?
+  bio String?
+  lastActive DateTime?
+  posts Post[]
+  comments Comment[]
+  messages Message[]
+  conversations Conversation[]
+  groups Group[]
+  read Conversation[] @relation("read")
+  likedPosts Post[] @relation("postlike")
+  likedComments Comment[] @relation("commentlike")
+  requests User[] @relation("requests")
+  requested User[] @relation("requests")
+  friends User[] @relation("friends")
+  followedBy User[] @relation("friends")
+}
+
+model Post {
+  id    Int    @id @default(autoincrement())
+  content String?
+  image String?
+  createdAt DateTime @default(now())
+  updateAt DateTime? @updatedAt
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  comments Comment[]
+  likes User[] @relation("postlike")
+  group Group? @relation(fields: [groupId], references: [id])
+  groupId Int?
+}
+
+model Comment {
+  id    Int    @id @default(autoincrement())
+  content String
+  createdAt DateTime @default(now())
+  updateAt DateTime? @updatedAt
+  post Post @relation(fields: [postId], references: [id])
+  postId Int
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  likes User[] @relation("commentlike")
+}
+
+model Message {
+  id    Int    @id @default(autoincrement())
+  content String?
+  image String?
+  createdAt DateTime @default(now())
+  updateAt DateTime? @updatedAt 
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+}
+
+model Conversation {
+  id    Int    @id @default(autoincrement())
+  Messages Message[]
+  Users User[]
+  readBy User[] @relation("read")
+  updateAt DateTime? @updatedAt @default(now())
+}
+
+model Group {
+  id    Int    @id @default(autoincrement())
+  name String
+  members User[]
+  posts Post[]
+}

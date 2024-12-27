@@ -1,39 +1,21 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs')
-const prisma = require('../db/prisma.js')
+const db = require('../db/queries.js')
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_KEY
+}
 
-passport.use(new LocalStrategy(
-  async (username, password, done)=>{
-    try {
-      const user = await prisma.users.findUnique({
-        where: {username: username}
-      })
-    if (!user) {
-      return done(null, false, {message: 'Incorrect username'});
+passport.use( new JwtStrategy(opts, async (jwt_payload, done) => {
+  try {
+    const user = await db.getUser(jwt_payload.username)
+    delete user.password;
+    if (user) {
+        return done(null, user)
     }
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return done(null, false, { message: "Incorrect password" })
-    }
-    return done(null, user)
-  } catch(err) {
-    return done(err);
+    return done(null, false)
+  } catch (err) {
+    return done(err)
   }
 }))
-
-passport.serializeUser((user,done)=>{
-  done(null, user.id);
-})
-
-passport.deserializeUser(async(id,done)=>{
-  try {
-    const user = await prisma.users.findUnique({
-      where: {id: id}
-    })
-
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-})
