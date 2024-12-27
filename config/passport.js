@@ -10,8 +10,8 @@ const opts = {
 passport.use( new JwtStrategy(opts, async (jwt_payload, done) => {
   try {
     const user = await db.getUser(jwt_payload.username)
-    delete user.password;
     if (user) {
+      console.log(user)
         return done(null, user)
     }
     return done(null, false)
