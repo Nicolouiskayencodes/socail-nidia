@@ -1,13 +1,15 @@
 const express = require('express');
 const routes = require('./routes');
 require('dotenv').config();
-
-
-const app = express();
+const cors = require('cors');
 require('./config/passport')
 
+const app = express();
+app.options('/*', cors())
+
+app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
 
 
 app.use(routes);
