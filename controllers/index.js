@@ -1,3 +1,4 @@
 const authentication = require('./authentication')
+const user = require('./userController')
 
-module.exports = {authentication}
+module.exports = {authentication, user}
