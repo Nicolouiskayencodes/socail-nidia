@@ -1,5 +1,5 @@
 const passport = require('passport');
-const db = require('../db/queries.js')
+const db = require('../db/userQueries.js')
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const opts = {
@@ -11,7 +11,6 @@ passport.use( new JwtStrategy(opts, async (jwt_payload, done) => {
   try {
     const user = await db.getUser(jwt_payload.username)
     if (user) {
-      user.password = null
       return done(null, user)
     }
     return done(null, false)

@@ -1,7 +1,7 @@
-const db = require('../db/queries.js');
+const db = require('../db/userQueries.js');
 const Crypto = require('crypto')
 const supabase = require('../config/supabase.js')
-const {decode} = require('base64-arraybuffer')
+const {decode} = require('base64-arraybuffer');
 
 const info = (req, res) => {
   res.json(req.user)
@@ -80,4 +80,21 @@ const followUser = async (req, res, next) => {
   }
 }
 
-module.exports = { info, setName, setAvatar, setBio, followUser }
+const getUsers = async (req, res, next) => {
+  try{
+    const users = await db.getUsers()
+    return res.json(users)
+  } catch (error) {
+    return next(error)
+  }
+}
+const getUser = async (req, res, next) => {
+  try {
+    const user = await db.getOtherUser(parseInt(req.params.id))
+    return res.json(user)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+module.exports = { info, setName, setAvatar, setBio, followUser, getUsers, getUser }

@@ -76,5 +76,18 @@ async function followUser(userId, targetId) {
   return user
 }
 
+async function getUsers() {
+  const users = await prisma.user.findMany({})
+  return users
+}
+async function getOtherUser(id) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id
+    }
+  })
+  return user
+}
 
-module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser }
+
+module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser, getUsers, getOtherUser }

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../db/queries.js');
+const db = require('../db/userQueries.js');
 
 const createUser = async (req, res, next) => {
   bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
