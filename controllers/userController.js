@@ -79,6 +79,14 @@ const followUser = async (req, res, next) => {
     return next(error)
   }
 }
+const unfollowUser = async (req, res, next) => {
+  try {
+    const user = await db.unfollowUser(parseInt(req.user.id), parseInt(req.params.id))
+    return res.json(user)
+  } catch (error) {
+    return next(error)
+  }
+}
 
 const getUsers = async (req, res, next) => {
   try{
@@ -97,4 +105,4 @@ const getUser = async (req, res, next) => {
   }
 }
 
-module.exports = { info, setName, setAvatar, setBio, followUser, getUsers, getUser }
+module.exports = { info, setName, setAvatar, setBio, followUser, unfollowUser, getUsers, getUser }

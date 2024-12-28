@@ -24,6 +24,7 @@ router.put('/username', authenticate, controller.user.setName);
 router.put('/avatar', authenticate, upload.single('file'), controller.user.setAvatar)
 router.put('/bio', authenticate, controller.user.setBio)
 router.put('/follow/:id', authenticate, controller.user.followUser)
+router.put
 
 //post routes
 router.post('/post', authenticate, upload.single('file'), controller.post.createPost)
@@ -40,5 +41,14 @@ router.put('/comment/:id', authenticate, controller.comment.updateComment)
 router.delete('/comment/:id', authenticate, controller.comment.deleteComment)
 router.put('/likecomment/:id', authenticate, controller.comment.likeComment)
 router.put('/unlikecomment/:id', authenticate, controller.comment.unlikeComment)
+
+//conversation routes
+router.get('/conversation/:conversationid', authenticate, controller.conversation.openConversation)
+router.post('/conversation', authenticate, controller.conversation.makeConversation)
+
+//message routes
+router.post('/message/:conversationid', authenticate, upload.single('file'), controller.message.sendMessage)
+router.put('/message/:messageid', authenticate, controller.message.updateMessage)
+router.delete('/message/:messageid', authenticate, controller.message.deleteMessage)
 
 module.exports = router

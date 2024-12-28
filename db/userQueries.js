@@ -75,6 +75,18 @@ async function followUser(userId, targetId) {
   })
   return user
 }
+async function unfollowUser(userId, targetId) {
+  const user = await prisma.user.update({
+    where: { id: userId},
+    data: {
+      following: { disconnect: [{
+        id: targetId
+      }]}
+    },
+    include: {following: true},
+  })
+  return user
+}
 
 async function getUsers() {
   const users = await prisma.user.findMany({})
@@ -90,4 +102,4 @@ async function getOtherUser(id) {
 }
 
 
-module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser, getUsers, getOtherUser }
+module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser, unfollowUser, getUsers, getOtherUser }

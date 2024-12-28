@@ -2,7 +2,6 @@ const db = require('../db/postQueries');
 const supabase = require('../config/supabase.js');
 const Crypto = require('crypto')
 const {decode} = require('base64-arraybuffer');
-const { message } = require('../db/prisma.js');
 
 const createPost = async (req, res, next) => {
   if (req.file || (req.body.content && req.body.content.trim().length > 0)){
