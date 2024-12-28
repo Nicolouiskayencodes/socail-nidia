@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const db = require('../db/queries.js');
 
 const createUser = async (req, res, next) => {
-  console.log(req.body)
   bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
     if (err) {
       return next(err);
@@ -19,7 +18,7 @@ const createUser = async (req, res, next) => {
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  const user = await db.getUser(username);
+  const user = await db.getLoginUser(username);
   if (!user) {
     return res.status(404).json({message: "User not found"})
   }

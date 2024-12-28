@@ -8,6 +8,21 @@ async function createUser(username, password) {
     }
   })
 }
+async function getLoginUser(username) {
+  const user = await prisma.user.update({
+    where: {
+      username: username
+    },
+    select: {
+      username: true,
+      password: true,
+    },
+    data: {
+      lastActive: new Date(),
+    },
+  })
+  return user;
+}
 
 async function getUser(username) {
   const user = await prisma.user.update({
@@ -48,5 +63,18 @@ async function setBio(id, bio) {
   return user
 }
 
+async function followUser(userId, targetId) {
+  const user = await prisma.user.update({
+    where: { id: userId},
+    data: {
+      following: { connect: [{
+        id: targetId
+      }]}
+    },
+    include: {following: true},
+  })
+  return user
+}
 
-module.exports = { createUser, getUser, setName, setAvatar, setBio }
+
+module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser }

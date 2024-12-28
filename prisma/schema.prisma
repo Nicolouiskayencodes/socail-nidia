@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -30,9 +31,7 @@ model User {
   read Conversation[] @relation("read")
   likedPosts Post[] @relation("postlike")
   likedComments Comment[] @relation("commentlike")
-  requests User[] @relation("requests")
-  requested User[] @relation("requests")
-  friends User[] @relation("friends")
+  following User[] @relation("friends")
   followedBy User[] @relation("friends")
 }
 

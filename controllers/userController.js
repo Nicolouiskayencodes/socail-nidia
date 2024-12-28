@@ -71,4 +71,13 @@ const setBio = async (req, res, next) => {
   }
 }
 
-module.exports = { info, setName, setAvatar, setBio }
+const followUser = async (req, res, next) => {
+  try {
+    const user = await db.followUser(parseInt(req.user.id), parseInt(req.params.id))
+    return res.json(user)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+module.exports = { info, setName, setAvatar, setBio, followUser }

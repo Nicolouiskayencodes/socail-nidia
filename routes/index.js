@@ -12,12 +12,14 @@ const storage = multer.memoryStorage({
 const upload = multer({ storage: storage })
 const authenticate = passport.authenticate('jwt', { session: false })
 
-
+//authentication routes
 router.post("/register", controller.authentication.createUser);
 router.post("/login", controller.authentication.login);
+//user routes
 router.get("/user", authenticate, controller.user.info);
 router.put('/username', authenticate, controller.user.setName);
 router.put('/avatar', authenticate, upload.single('file'), controller.user.setAvatar)
 router.put('/bio', authenticate, controller.user.setBio)
+router.put('/follow/:id', authenticate, controller.user.followUser)
 
 module.exports = router
