@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const controller= require('../controllers/')
+const controller = require('../controllers/')
 const multer  = require('multer')
 const storage = multer.memoryStorage({
   filename: function (req, file, cb) {
@@ -33,5 +33,12 @@ router.get('/post/:id', authenticate, controller.post.getPost)
 router.put('/likepost/:id', authenticate, controller.post.likePost)
 router.put('/unlikepost/:id', authenticate, controller.post.unlikePost)
 router.get('/post', authenticate, controller.post.getAllPosts)
+
+//comment routes
+router.post('/comment/:id', authenticate, controller.comment.createComment)
+router.put('/comment/:id', authenticate, controller.comment.updateComment)
+router.delete('/comment/:id', authenticate, controller.comment.deleteComment)
+router.put('/likecomment/:id', authenticate, controller.comment.likeComment)
+router.put('/unlikecomment/:id', authenticate, controller.comment.unlikeComment)
 
 module.exports = router

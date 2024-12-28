@@ -50,8 +50,13 @@ async function getPost(id) {
   const post = await prisma.post.findUnique({
     where: { id: id },
     include: {
-      comments: true,
+      comments: {
+        include: {
+          likes: true,
+        },
+      },
       likes: true,
+      author: true,
     }
   })
   return post
@@ -94,6 +99,15 @@ async function getAllPosts(id) {
         id: { in: [...following.following.map((user) => user.id), id] },
       },
     },
+    include: {
+      comments: {
+        include: {
+          likes: true,
+        },
+      },
+      likes: true,
+      author: true,
+    }
   })
   return posts
 }
