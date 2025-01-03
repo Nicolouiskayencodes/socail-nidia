@@ -51,4 +51,7 @@ router.post('/message/:conversationid', authenticate, upload.single('file'), con
 router.put('/message/:messageid', authenticate, controller.message.updateMessage)
 router.delete('/message/:messageid', authenticate, controller.message.deleteMessage)
 
+//group routes
+// router.post('/group')
+
 module.exports = router

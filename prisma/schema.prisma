@@ -28,6 +28,7 @@ model User {
   messages Message[]
   conversations Conversation[]
   groups Group[]
+  adminOf Group[] @relation("admin")
   read Conversation[] @relation("read")
   likedPosts Post[] @relation("postlike")
   likedComments Comment[] @relation("commentlike")
@@ -85,5 +86,6 @@ model Group {
   id    Int    @id @default(autoincrement())
   name String
   members User[]
+  admins User [] @relation("admin")
   posts Post[]
 }
