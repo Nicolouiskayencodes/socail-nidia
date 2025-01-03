@@ -2,7 +2,6 @@ const db = require('../db/groupQueries')
 const supabase = require('../config/supabase.js');
 const Crypto = require('crypto')
 const {decode} = require('base64-arraybuffer');
-const { message } = require('../db/prisma.js');
 
 const createGroup = async (req, res, next) => {
   try {
@@ -108,7 +107,7 @@ const createPost = async (req, res, next) => {
     }
   } else {
     try {
-    const group = await db.createPost( parseInt(req.user.id), parseInt(req.params.id), null, req.body.bio)
+    const group = await db.createPost( parseInt(req.user.id), parseInt(req.params.id), null, req.body.content)
     return res.json(group)
   } catch (error) {
     return next(error)
@@ -122,5 +121,21 @@ const deletePost = async (req, res, next) => {
     return next(error)
   }
 }
+const joinGroup = async (req, res, next) => {
+  try {
+    const group = await db.joinGroup(parseInt(req.user.id), parseInt(req.params.id))
+    return res.json(group)
+  } catch (error) {
+    return next(error)
+  }
+}
+const addAdmin = async (req, res, next) => {
+  try {
+    const group = await db.addAdmin(parseInt(req.user.id), parseInt(req.params.groupId), parseInt(req.params.memberId))
+    return res.json(group)
+  } catch (error) {
+    return next(error)
+  }
+}
 
-module.exports = { createGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost }
+module.exports = { createGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin }

@@ -58,6 +58,8 @@ router.get('/group/:id', authenticate, controller.group.openGroup)
 router.put('/group/:id', authenticate, upload.single('file'), controller.group.updateGroup)
 router.put('/leave/:id', authenticate, controller.group.leaveGroup)
 router.post('/group/post/:id', authenticate, upload.single('file'), controller.group.createPost)
-router.delete('/group/:groupId/::postId', authenticate, controller.group.deletePost)
+router.delete('/group/:groupId/:postId', authenticate, controller.group.deletePost)
+router.put('/join/:id', authenticate, controller.group.joinGroup)
+router.put('/admin/:groupId/:memberId', authenticate, controller.group.addAdmin)
 
 module.exports = router

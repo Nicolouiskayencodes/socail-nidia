@@ -30,16 +30,27 @@ async function openGroup(userid, groupid) {
       posts: true,
     }
   })
-  if (checkGroup.admins.length > 0) {
+  if (checkGroup.admins.length > 0 || !checkGroup.members.some(member => {return member.id === userid})) {
     return checkGroup
   } else {
     const update = await prisma.group.update({
-      where: {id: id},
+      where: {id: groupid},
       data: {
         admins: {
           connect: {
             id: userid
-    }}}},)
+    }}},
+    include: {
+      members: true,
+      admins: true,
+      posts: {include:
+        {
+          author: true,
+          likes: true
+        }
+      },
+    },
+  },)
     return update
   }
 }
@@ -113,5 +124,41 @@ async function deletePost(userId, groupId, postId) {
     }
   })
 }
+async function joinGroup(userId, groupId) {
+  const group = await prisma.group.update({
+    where: {
+      id: groupId
+    },
+    data: {
+      members: {
+        connect: {
+          id: userId
+        }
+      }
+    }
+  })
+  return group
+}
+async function addAdmin(adminId, groupId, memberId) {
+  const group = await prisma.group.update({
+    where: {
+      id: groupId,
+      admins: {
+        some: {
+          id: adminId,
+        },
+      },
+    },
+    data: {
+      admins: {
+        connect: {
+          id: memberId
+        }
+      }
+    }
+  })
+  return group
+}
 
-module.exports = { makeGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost }
+
+module.exports = { makeGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin }

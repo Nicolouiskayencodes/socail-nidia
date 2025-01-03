@@ -98,7 +98,7 @@ async function getAllPosts(id) {
       author: {
         id: { in: [...following.following.map((user) => user.id), id] },
       },
-      postId: null,
+      groupId: null,
     },
     include: {
       comments: {
