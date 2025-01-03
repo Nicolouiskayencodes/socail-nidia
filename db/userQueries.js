@@ -63,17 +63,34 @@ async function setBio(id, bio) {
   return user
 }
 
-async function followUser(userId, targetId) {
+async function followRequest(userId, targetId) {
   const user = await prisma.user.update({
     where: { id: userId},
     data: {
-      following: { connect: [{
+      sentRequests: { connect: [{
         id: targetId
       }]}
     },
-    include: {following: true},
+    include: {requests: true},
   })
   return user
+}
+async function acceptFollow(userId, requestId) {
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      receivedRequests: {
+        disconnect: {
+          id: requestId
+        },
+      },
+      followedBy: {
+        connect: {
+          id: requestId,
+        },
+      }
+    }
+  })
 }
 async function unfollowUser(userId, targetId) {
   const user = await prisma.user.update({
@@ -102,4 +119,4 @@ async function getOtherUser(id) {
 }
 
 
-module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followUser, unfollowUser, getUsers, getOtherUser }
+module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getOtherUser }

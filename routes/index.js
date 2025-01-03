@@ -23,8 +23,9 @@ router.get('/users', authenticate, controller.user.getUsers)
 router.put('/username', authenticate, controller.user.setName);
 router.put('/avatar', authenticate, upload.single('file'), controller.user.setAvatar)
 router.put('/bio', authenticate, controller.user.setBio)
-router.put('/follow/:id', authenticate, controller.user.followUser)
-router.put
+router.put('/follow/:id', authenticate, controller.user.followRequest)
+router.put('/accept/:id', authenticate, controller.user.acceptFollow)
+router.put('/unfollow/:id', authenticate, controller.user.unfollowUser)
 
 //post routes
 router.post('/post', authenticate, upload.single('file'), controller.post.createPost)
@@ -52,6 +53,11 @@ router.put('/message/:messageid', authenticate, controller.message.updateMessage
 router.delete('/message/:messageid', authenticate, controller.message.deleteMessage)
 
 //group routes
-// router.post('/group')
+router.post('/group', authenticate, controller.group.createGroup)
+router.get('/group/:id', authenticate, controller.group.openGroup)
+router.put('/group/:id', authenticate, upload.single('file'), controller.group.updateGroup)
+router.put('/leave/:id', authenticate, controller.group.leaveGroup)
+router.post('/group/post/:id', authenticate, upload.single('file'), controller.group.createPost)
+router.delete('/group/:groupId/::postId', authenticate, controller.group.deletePost)
 
 module.exports = router

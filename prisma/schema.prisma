@@ -34,6 +34,8 @@ model User {
   likedComments Comment[] @relation("commentlike")
   following User[] @relation("friends")
   followedBy User[] @relation("friends")
+  receivedRequests User[] @relation("requests")
+  sentRequests User[] @relation("requests")
 }
 
 model Post {
@@ -84,7 +86,10 @@ model Conversation {
 
 model Group {
   id    Int    @id @default(autoincrement())
-  name String
+  name String @unique
+  banner String?
+  bio String?
+  sidebar String?
   members User[]
   admins User [] @relation("admin")
   posts Post[]

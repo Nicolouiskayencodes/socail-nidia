@@ -6,4 +6,4 @@ const conversation = require('./conversationController')
 const message = require('./messageController')
 const group = require('./groupController')
 
-module.exports = {authentication, user, post, comment, conversation, message}
+module.exports = {authentication, user, post, comment, conversation, message, group}

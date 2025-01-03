@@ -2,7 +2,7 @@ const db = require('../db/conversationQueries')
 
 const makeConversation = async (req, res, next) => {
   const userarray = req.body.userarray
-  userarray.unshift(req.user)
+  userarray.push(req.user)
     try {
       const conversation = await db.makeConversation(userarray)
       return res.status(200).json(conversation)

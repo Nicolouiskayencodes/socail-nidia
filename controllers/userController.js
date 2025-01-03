@@ -71,9 +71,17 @@ const setBio = async (req, res, next) => {
   }
 }
 
-const followUser = async (req, res, next) => {
+const followRequest = async (req, res, next) => {
   try {
-    const user = await db.followUser(parseInt(req.user.id), parseInt(req.params.id))
+    const user = await db.followRequest(parseInt(req.user.id), parseInt(req.params.id))
+    return res.json(user)
+  } catch (error) {
+    return next(error)
+  }
+}
+const acceptFollow = async (req, res, next) => {
+  try{
+    const user = await db.acceptFollow(parseInt(req.user.id), parseInt(req.params.id))
     return res.json(user)
   } catch (error) {
     return next(error)
@@ -105,4 +113,4 @@ const getUser = async (req, res, next) => {
   }
 }
 
-module.exports = { info, setName, setAvatar, setBio, followUser, unfollowUser, getUsers, getUser }
+module.exports = { info, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getUser }
