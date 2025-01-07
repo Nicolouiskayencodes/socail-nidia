@@ -8,7 +8,10 @@ const createUser = async (req, res, next) => {
       return next(err);
     }
     try {
-      await db.createUser(req.body.username, hashedPassword)
+      const newUser = await db.createUser(req.body.username, hashedPassword)
+      if (newUser === 'failed'){
+        return res.status(401).json({error: "Username is already taken"})
+      }
       return res.status(200).json({message: "User created"})
     } catch(err) {
       return next(err);
