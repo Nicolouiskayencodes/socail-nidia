@@ -46,6 +46,16 @@ async function getUser(username) {
     data: {
       lastActive: new Date(),
     },
+    include: {
+      conversations: {
+        include: {readBy: true},
+      },
+      following: true,
+      receivedRequests: true,
+      posts: {
+        include: { likes: true}
+      }
+    },
   })
   return user;
 }
