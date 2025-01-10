@@ -104,6 +104,7 @@ async function getAllPosts(id) {
       comments: {
         include: {
           likes: true,
+          author:true,
         },
       },
       likes: true,

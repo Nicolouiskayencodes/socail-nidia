@@ -53,7 +53,15 @@ async function getUser(username) {
       following: true,
       receivedRequests: true,
       posts: {
-        include: { likes: true}
+        include: { likes: true,
+          author: true,
+          comments: {
+            include: {
+              author: true,
+              likes: true,
+            }
+          }
+        }
       }
     },
   })
