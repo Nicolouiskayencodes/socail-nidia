@@ -109,6 +109,9 @@ async function getAllPosts(id) {
       },
       likes: true,
       author: true,
+    },
+    orderBy: {
+      createdAt: 'desc'
     }
   })
   return posts

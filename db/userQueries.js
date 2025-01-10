@@ -61,6 +61,9 @@ async function getUser(username) {
               likes: true,
             }
           }
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
       }
     },
