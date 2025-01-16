@@ -48,7 +48,9 @@ async function getUser(username) {
     },
     include: {
       conversations: {
-        include: {readBy: true},
+        include: {readBy: true,
+          Users: true,
+        },
       },
       following: true,
       receivedRequests: true,
