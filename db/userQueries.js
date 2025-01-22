@@ -54,6 +54,7 @@ async function getUser(username) {
       },
       following: true,
       receivedRequests: true,
+      sentRequests: true,
       posts: {
         include: { likes: true,
           author: true,
@@ -108,7 +109,7 @@ async function followRequest(userId, targetId) {
         id: targetId
       }]}
     },
-    include: {requests: true},
+    include: {sentRequests: true},
   })
   return user
 }
@@ -135,7 +136,12 @@ async function unfollowUser(userId, targetId) {
     data: {
       following: { disconnect: [{
         id: targetId
-      }]}
+      }]},
+      sentRequests: {
+        disconnect: [{
+          id: targetId
+        }]
+      }
     },
     include: {following: true},
   })
@@ -150,6 +156,22 @@ async function getOtherUser(id) {
   const user = await prisma.user.findUnique({
     where: {
       id: id
+    },
+    include: {
+      posts: {
+        include: { likes: true,
+          author: true,
+          comments: {
+            include: {
+              author: true,
+              likes: true,
+            }
+          }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      }
     }
   })
   return user
