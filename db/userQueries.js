@@ -129,6 +129,7 @@ async function acceptFollow(userId, requestId) {
       }
     }
   })
+  return user
 }
 async function unfollowUser(userId, targetId) {
   const user = await prisma.user.update({
