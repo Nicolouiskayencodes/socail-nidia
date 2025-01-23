@@ -3,6 +3,15 @@ const supabase = require('../config/supabase.js');
 const Crypto = require('crypto')
 const {decode} = require('base64-arraybuffer');
 
+const getGroups = async(req, res, next) => {
+  try{
+    const groups = await db.getGroups();
+    res.json(groups)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const createGroup = async (req, res, next) => {
   try {
     const group = await db.makeGroup(parseInt(req.user.id), req.body.groupName)
@@ -56,7 +65,7 @@ const updateGroup = async (req, res, next) => {
       }
     } else {
       try {
-      const group = await db.updateGroup( parseInt(req.user.id), parseInt(req.params.id), null, req.body.bio, req.body.sidebar)
+      const group = await db.updateGroup( parseInt(req.user.id), parseInt(req.params.id), req.body.banner, req.body.bio, req.body.sidebar)
       return res.json(group)
     } catch (error) {
       return next(error)
@@ -138,4 +147,4 @@ const addAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = { createGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin }
+module.exports = { createGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin, getGroups }

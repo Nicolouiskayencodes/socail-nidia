@@ -55,6 +55,7 @@ async function getUser(username) {
       following: true,
       receivedRequests: true,
       sentRequests: true,
+      groups: true,
       posts: {
         include: { likes: true,
           author: true,

@@ -53,6 +53,7 @@ router.put('/message/:messageid', authenticate, controller.message.updateMessage
 router.delete('/message/:messageid', authenticate, controller.message.deleteMessage)
 
 //group routes
+router.get('/group', authenticate, controller.group.getGroups)
 router.post('/group', authenticate, controller.group.createGroup)
 router.get('/group/:id', authenticate, controller.group.openGroup)
 router.put('/group/:id', authenticate, upload.single('file'), controller.group.updateGroup)

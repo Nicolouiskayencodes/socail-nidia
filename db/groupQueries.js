@@ -1,5 +1,14 @@
 const prisma = require('./prisma')
 
+async function getGroups() {
+  const groups = await prisma.group.findMany({
+    orderBy: {
+      name: 'asc'
+    }
+  })
+  return groups
+}
+
 async function makeGroup(userid, groupName) {
   const group = await prisma.group.create({
     data: {
@@ -27,7 +36,13 @@ async function openGroup(userid, groupid) {
     include: {
       members: true,
       admins: true,
-      posts: true,
+      posts: {
+        include: {
+          author: true,
+          likes: true,
+          comments: true,
+        }
+      },
     }
   })
   if (checkGroup.admins.length > 0 || !checkGroup.members.some(member => {return member.id === userid})) {
@@ -161,4 +176,4 @@ async function addAdmin(adminId, groupId, memberId) {
 }
 
 
-module.exports = { makeGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin }
+module.exports = { makeGroup, openGroup, updateGroup, leaveGroup, createPost, deletePost, joinGroup, addAdmin, getGroups }
