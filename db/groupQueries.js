@@ -41,6 +41,9 @@ async function openGroup(userid, groupid) {
           author: true,
           likes: true,
           comments: true,
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
       },
     }
