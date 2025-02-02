@@ -5,9 +5,12 @@ const cors = require('cors');
 require('./config/passport')
 
 const app = express();
-app.options('/*', cors())
+const corsOptions ={
+  origin: 'https://socialnidia.netlify.app', 
+  optionSuccessStatus:200,
+}
+app.use(cors(corsOptions));
 
-app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(routes);
