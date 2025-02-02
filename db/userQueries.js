@@ -151,7 +151,11 @@ async function unfollowUser(userId, targetId) {
 }
 
 async function getUsers() {
-  const users = await prisma.user.findMany({})
+  const users = await prisma.user.findMany({
+    orderBy: {
+      username: 'asc'
+    }
+  })
   return users
 }
 async function getOtherUser(id) {
