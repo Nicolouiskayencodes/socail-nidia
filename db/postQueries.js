@@ -15,6 +15,9 @@ async function deletePost(userId, postId) {
     await prisma.comment.deleteMany({
       where: {
         postId: postId,
+        post: {
+          authorId: userId
+        }
       }
     })
     await prisma.post.delete({
