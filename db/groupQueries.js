@@ -40,7 +40,11 @@ async function openGroup(userid, groupid) {
         include: {
           author: true,
           likes: true,
-          comments: true,
+          comments: {
+            include: {
+              author: true,
+            },
+          },
         },
         orderBy: {
           createdAt: 'desc'
