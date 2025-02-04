@@ -43,6 +43,7 @@ async function openGroup(userid, groupid) {
           comments: {
             include: {
               author: true,
+              likes: true,
             },
           },
         },
