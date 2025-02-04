@@ -12,6 +12,11 @@ async function createPost(id, image, content) {
 } 
 async function deletePost(userId, postId) {
   try {
+    await prisma.comment.deleteMany({
+      where: {
+        postId: postId,
+      }
+    })
     await prisma.post.delete({
       where: {
         authorId: userId,
