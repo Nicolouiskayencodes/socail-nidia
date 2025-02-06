@@ -1,27 +1,6 @@
-# passport-prisma-template
+# Social Nidia
+Live preview: https://socialnidia.netlify.app/
 
-Template for authenticating users 
-npm init -y
-npm install express express-session passport passport-local bcryptjs ejs @prisma/client @quixo3/prisma-session-store
-npm install dotenv prisma --save-dev
+Follow other users, post, comment, and like, and join groups for communities with similar interest. Includes messaging capabilities.
 
-npx prisma init
-
-add DATABASE_URL and SECRET to .env
-
-model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String   @db.MediumText  // MediumText may be needed for MySql
-  expiresAt   DateTime
-}
-
-model Users {
-  id    Int     @id @default(autoincrement())
-  username String @unique
-  password String
-}
-
-npx prisma generate
-
-npx prisma migrate dev --name init
+A full stack social media site using JSON Web Token and relational databases with Prisma ORM
