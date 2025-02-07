@@ -26,7 +26,7 @@ router.put('/bio', authenticate, controller.user.setBio)
 router.put('/follow/:id', authenticate, controller.user.followRequest)
 router.put('/accept/:id', authenticate, controller.user.acceptFollow)
 router.put('/unfollow/:id', authenticate, controller.user.unfollowUser)
-router.delete('user/:id', authenticate, controller.user.delete)
+router.delete('user/:id', authenticate, controller.user.deleteUser)
 
 //post routes
 router.post('/post', authenticate, upload.single('file'), controller.post.createPost)
