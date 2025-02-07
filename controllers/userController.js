@@ -113,4 +113,16 @@ const getUser = async (req, res, next) => {
   }
 }
 
-module.exports = { info, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getUser }
+const deleteUser = async (req, res, next) => {
+  if (user.id === 1) {
+    try {
+      await db.deleteUser(parseInt(req.params.id))
+      return res.status(200)
+    } catch (error) {
+      return next(error)
+    }
+  }
+  return res.status(401)
+}
+
+module.exports = { info, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getUser, deleteUser }

@@ -183,5 +183,23 @@ async function getOtherUser(id) {
   return user
 }
 
+async function deleteUser(id) {
+  await prisma.comment.deleteMany({
+    where: {
+      authorId: id
+    }
+  })
+  await prisma.post.deleteMany({
+    where: {
+      authorId: id
+    }
+  })
+  await prisma.user.delete({
+    where: {
+      id: id
+    }
+  })
+}
 
-module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getOtherUser }
+
+module.exports = { createUser, getLoginUser, getUser, setName, setAvatar, setBio, followRequest, acceptFollow, unfollowUser, getUsers, getOtherUser, deleteUser }
