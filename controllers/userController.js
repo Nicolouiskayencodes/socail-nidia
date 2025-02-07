@@ -114,7 +114,7 @@ const getUser = async (req, res, next) => {
 }
 
 const deleteUser = async (req, res, next) => {
-  if (user.id === 1) {
+  if (req.user.id === 1) {
     try {
       await db.deleteUser(parseInt(req.params.id))
       return res.status(200)
